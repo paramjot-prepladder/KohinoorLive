@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/_10sdp">
+
+            <TextView
+                android:id="@+id/name"
+                style="@style/Title6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxLength="40"
+                app:layout_constraintEnd_toStartOf="@id/price"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Srihari Maddirala" />
+
+            <TextView
+                android:id="@+id/price"
+                style="@style/Micro10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/name"
+                tools:text="$12.70" />
+
+            <TextView
+                android:id="@+id/mobile"
+                style="@style/Micro10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/name"
+                app:layout_constraintTop_toBottomOf="@id/name"
+                tools:text="4915168738400" />
+
+            <TextView
+                android:id="@+id/address"
+                style="@style/Mini"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/lightTextSecondary"
+                android:textStyle="italic"
+                app:layout_constraintEnd_toEndOf="@id/name"
+                app:layout_constraintStart_toStartOf="@id/name"
+                app:layout_constraintTop_toBottomOf="@id/mobile"
+                tools:text="Rumannstraße 61, 80804" />
+
+            <TextView
+                android:id="@+id/orderNo"
+                style="@style/Micro10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="@id/name"
+                app:layout_constraintTop_toBottomOf="@id/address"
+                tools:text="Order #4340" />
+
+            <TextView
+                android:id="@+id/date"
+                style="@style/Mini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/orderNo"
+                tools:text="Mon May 15 2023 05:40 PM" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:cardBackgroundColor="@color/text_color_green"
+                app:cardCornerRadius="@dimen/_5sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/date"
+                app:layout_constraintTop_toBottomOf="@id/date">
+
+                <TextView
+                    android:id="@+id/statusText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:text="Prepared"
+                    android:textColor="@color/white"
+
+                    android:textStyle="bold" />
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

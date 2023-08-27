@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:background="@drawable/pop_up_line"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/product"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@drawable/edittext_header"
+        android:imeOptions="actionSearch"
+        android:gravity="center"
+        android:windowSoftInputMode="stateVisible"
+        android:inputType="text"
+        android:hint="Search for product"
+        android:padding="@dimen/_10sdp"
+        app:layout_constraintEnd_toStartOf="@id/quantity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider" />
+
+    <EditText
+        android:id="@+id/quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:background="@drawable/edittext_header"
+        android:hint="Quantity"
+        android:inputType="number"
+        android:padding="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/product" />
+
+    <TextView
+        android:id="@+id/addProduct"
+        android:layout_width="0dp"
+        style="@style/Title6"
+        android:background="@color/text_color_orange"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:padding="@dimen/_10sdp"
+        android:text="Add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/quantity"
+        app:layout_constraintStart_toStartOf="@id/product"
+        app:layout_constraintTop_toBottomOf="@id/quantity" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
