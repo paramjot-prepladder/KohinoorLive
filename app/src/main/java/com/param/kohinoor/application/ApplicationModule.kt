@@ -13,6 +13,7 @@ import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 
@@ -55,7 +56,7 @@ class ApplicationModule {
 
         return Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
-            .baseUrl("https://kohinoormunich.de/wp-json/wc/v3/")
+            .baseUrl("https://kohinoormunich.de/wp-json/")
             .client(okHttpClient)
             .build()
     }

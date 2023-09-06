@@ -7,19 +7,19 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Image(
     @Json(name = "alt")
-    val alt: String?,
+    var alt: String? = null,
     @Json(name = "date_created")
-    val dateCreated: String?,
+    var dateCreated: String? = null,
     @Json(name = "date_created_gmt")
-    val dateCreatedGmt: String?,
+    var dateCreatedGmt: String? = null,
     @Json(name = "date_modified")
-    val dateModified: String?,
+    var dateModified: String? = null,
     @Json(name = "date_modified_gmt")
-    val dateModifiedGmt: String?,
+    var dateModifiedGmt: String? = null,
     @Json(name = "id")
-    val id: Int?,
+    var id: Int? = 0,
     @Json(name = "name")
-    val name: String?,
+    var name: String? = null,
     @Json(name = "src")
     val src: String?
 )

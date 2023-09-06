@@ -80,6 +80,8 @@ dependencies {
     implementation("com.intuit.ssp:ssp-android:1.0.6")
     implementation("com.intuit.sdp:sdp-android:1.1.0")
     implementation("com.google.code.gson:gson:2.9.0")
+    implementation("com.github.starry-shivam:FileUtils:1.0.0")
+    implementation("com.github.AnilFurkanOkcun:UWMediaPicker-Android:1.3.3")
 
 }
 kapt {

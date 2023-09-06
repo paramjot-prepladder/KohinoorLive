@@ -14,6 +14,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/productImage"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_200sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <EditText
                 android:id="@+id/firstName"
                 style="@style/Small"
@@ -26,12 +34,11 @@
                 android:padding="@dimen/_10sdp"
                 app:layout_constraintEnd_toStartOf="@id/lastName"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/productImage" />
 
             <EditText
                 android:id="@+id/lastName"
                 style="@style/Small"
-                android:visibility="gone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
@@ -39,6 +46,7 @@
                 android:gravity="center"
                 android:hint="Last Name"
                 android:padding="@dimen/_10sdp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/firstName"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -51,8 +59,8 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:background="@drawable/edittext_header"
                 android:gravity="start"
-                android:lines="3"
                 android:hint="Description"
+                android:lines="3"
                 android:padding="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="@id/firstName"
                 app:layout_constraintStart_toStartOf="@id/firstName"
@@ -75,7 +83,6 @@
             <EditText
                 android:id="@+id/city"
                 style="@style/Small"
-                android:inputType="numberDecimal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -83,25 +90,39 @@
                 android:background="@drawable/edittext_header"
                 android:gravity="center"
                 android:hint="Price"
+                android:inputType="numberDecimal"
                 android:padding="@dimen/_10sdp"
-                app:layout_constraintEnd_toStartOf="@id/zipcode"
+                app:layout_constraintEnd_toStartOf="@id/taxSlab"
                 app:layout_constraintStart_toStartOf="@id/firstName"
                 app:layout_constraintTop_toBottomOf="@+id/address2" />
 
-            <EditText
-                android:id="@+id/zipcode"
+            <Spinner
+                android:id="@+id/taxSlab"
                 style="@style/Small"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
                 android:background="@drawable/edittext_header"
                 android:gravity="center"
-                android:hint="Zip code"
-                android:visibility="invisible"
                 android:padding="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="@id/lastName"
                 app:layout_constraintStart_toEndOf="@id/city"
                 app:layout_constraintTop_toTopOf="@+id/city" />
+            <Spinner
+                android:id="@+id/brandSpinner"
+                style="@style/Small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:background="@drawable/edittext_header"
+                android:gravity="center"
+                android:inputType="numberDecimal"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintEnd_toStartOf="@id/taxSlab"
+                app:layout_constraintStart_toStartOf="@id/firstName"
+                app:layout_constraintTop_toBottomOf="@+id/city" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/addProduct"
                 android:layout_width="0dp"
@@ -111,7 +132,7 @@
                 android:padding="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="@id/address1"
                 app:layout_constraintStart_toStartOf="@id/firstName"
-                app:layout_constraintTop_toBottomOf="@id/city">
+                app:layout_constraintTop_toBottomOf="@id/brandSpinner">
 
                 <ImageView
                     android:id="@+id/iv_add_item"
@@ -143,8 +164,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/addProduct"
                 app:layout_constraintStart_toStartOf="@id/addProduct"
                 app:layout_constraintTop_toBottomOf="@id/addProduct"
@@ -153,6 +174,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
     <Button
         android:id="@+id/addOrder"
         android:layout_width="0dp"
