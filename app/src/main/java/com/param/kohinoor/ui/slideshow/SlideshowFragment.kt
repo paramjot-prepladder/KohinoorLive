@@ -26,6 +26,8 @@ import com.param.exercise.utils.hide
 import com.param.exercise.utils.show
 import com.param.kohinoor.R
 import com.param.kohinoor.databinding.FragmentSlideshowBinding
+import com.param.kohinoor.pojo.RequestAddBrand
+import com.param.kohinoor.pojo.brand.TaxCategories
 import com.param.kohinoor.pojo.order.LineItem
 import com.param.kohinoor.pojo.product.Image
 import com.param.kohinoor.pojo.product.createRequest.Category
@@ -65,15 +67,17 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
     }
     val brandHashMap = mutableMapOf<String?, String?>()
     var selectedTaxSlab = ""
-    val hashTaxSlab = mapOf<String, String>(
-        "Standard rate" to "standard",
-        "Greater reduced rate" to "greater-reduced-rate",
-        "GST 19%" to "gst-19",
-        "GST 7%" to "gst-7",
-        "Reduced rate" to "reduced-rate",
-        "Super reduced rate" to "super-reduced-rate",
-        "Zero rate" to "zero-rate"
-    )
+    var selectedBrand = ""
+    private var listTaxClass: ArrayList<TaxCategories> = arrayListOf()
+//    val hashTaxSlab = mapOf<String, String>(
+//        "Standard rate" to "standard",
+//        "Greater reduced rate" to "greater-reduced-rate",
+//        "GST 19%" to "gst-19",
+//        "GST 7%" to "gst-7",
+//        "Reduced rate" to "reduced-rate",
+//        "Super reduced rate" to "super-reduced-rate",
+//        "Zero rate" to "zero-rate"
+//    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -116,26 +120,19 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getBrand()
-        ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            hashTaxSlab.keys.toList()
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            binding?.taxSlab?.adapter = adapter
-        }
-        binding?.taxSlab?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        viewModel.getTaxClass()
+
+        binding.taxSlab.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-                val a = hashTaxSlab.keys.toList().get(position)
-                selectedTaxSlab = hashTaxSlab[a] ?: ""
-                Toast.makeText(activity, a+"  " + position, Toast.LENGTH_LONG).show()
+                val a = listTaxClass[position]
+                selectedTaxSlab = a.slug ?: ""
+                Toast.makeText(activity, "$selectedTaxSlab $position", Toast.LENGTH_LONG).show()
+
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -143,32 +140,57 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
             }
 
         }
-        ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_item,
-            brandHashMap.keys.toList()
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            binding?.brandSpinner?.adapter = adapter
-        }
-        binding?.brandSpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val a = brandHashMap.keys.toList().get(position)
-                selectedTaxSlab = brandHashMap[a] ?: ""
-                Toast.makeText(activity, a+" " + position, Toast.LENGTH_LONG).show()
-            }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
+        binding.brandSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val a = brandHashMap.keys.toList().get(position)
+                    selectedBrand = brandHashMap[a] ?: ""
+                    Toast.makeText(activity, a + " " + position, Toast.LENGTH_LONG).show()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                }
 
             }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getTaxClass.collect {
+                when (it) {
+                    is ResourceState.Loading -> {
+                        listTaxClass.clear()
+//                        binding.progressBar.show()
+                    }
 
+                    is ResourceState.Success -> {
+                        binding.progressBar.hide()
+                        listTaxClass.add(TaxCategories(-1,"Select Tax",""))
+                        listTaxClass.addAll(it.item)
+//                        listTaxClass = it.item as ArrayList<TaxCategories>
+                        ArrayAdapter(
+                            requireContext(),
+                            android.R.layout.simple_spinner_item,
+                            listTaxClass.map { ls -> ls.name }
+                        ).also { adapter ->
+                            // Specify the layout to use when the list of choices appears
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                            // Apply the adapter to the spinner
+                            binding.taxSlab.adapter = adapter
+                        }
+                    }
+
+                    is ResourceState.Error -> {
+                        Toast.makeText(activity, "Something when wrong", Toast.LENGTH_LONG).show()
+                    }
+
+                    else -> {}
+                }
+            }
         }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.createProduct.collect {
@@ -179,6 +201,7 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
 
                     is ResourceState.Success -> {
                         binding.progressBar.hide()
+                        viewModel.addBrand(RequestAddBrand(selectedBrand, it.item.id.toString()))
                     }
 
                     is ResourceState.Error -> {
@@ -197,8 +220,19 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
                     }
 
                     is ResourceState.Success -> {
+                        brandHashMap["Select Brand"] = ""
                         it.item.data?.products?.taxCategoriesList?.forEach { tax ->
                             brandHashMap[tax.name] = tax.slug
+                        }
+                        ArrayAdapter(
+                            requireContext(),
+                            android.R.layout.simple_spinner_item,
+                            brandHashMap.keys.toList()
+                        ).also { adapter ->
+                            // Specify the layout to use when the list of choices appears
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                            // Apply the adapter to the spinner
+                            binding.brandSpinner.adapter = adapter
                         }
                         binding.progressBar.hide()
                     }
@@ -252,20 +286,28 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
                     showToast("Kindly add category")
                     return@setOnClickListener
                 }
-                if (firstName.text.toString().isBlank()) {
+                if (firstName.text.toString().trim().isBlank()) {
                     showToast("kindly enter name")
                     return@setOnClickListener
                 }
-                if (address1.text.toString().isBlank()) {
+                if (address1.text.toString().trim().isBlank()) {
                     showToast("kindly enter description")
                     return@setOnClickListener
                 }
-                if (address2.text.toString().isBlank()) {
+                if (address2.text.toString().trim().isBlank()) {
                     showToast("kindly enter short description")
                     return@setOnClickListener
                 }
-                if (city.text.toString().isBlank()) {
+                if (city.text.toString().trim().isBlank()) {
                     showToast("kindly enter price")
+                    return@setOnClickListener
+                }
+                if (selectedBrand.trim().isBlank()) {
+                    showToast("kindly enter brand")
+                    return@setOnClickListener
+                }
+                if (selectedTaxSlab.isBlank()) {
+                    showToast("kindly enter Tax slab")
                     return@setOnClickListener
                 }
                 viewModel.createProduct(

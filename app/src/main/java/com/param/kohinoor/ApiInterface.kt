@@ -1,6 +1,8 @@
 package com.param.kohinoor
 
+import com.param.kohinoor.pojo.RequestAddBrand
 import com.param.kohinoor.pojo.brand.ResponseBrand
+import com.param.kohinoor.pojo.brand.TaxCategories
 import com.param.kohinoor.pojo.createOrder.RequestCreateOrder
 import com.param.kohinoor.pojo.gallery.ResponseGallery
 import com.param.kohinoor.pojo.order.LineItem
@@ -29,11 +31,17 @@ interface ApiInterface {
     @GET("koh-app/wc/v3/category/brands/view")
     suspend fun getBrand(): Response<ResponseBrand>
 
+    @POST("koh-app/wc/v3/category/brands/add")
+    suspend fun addBrand(@Body request: RequestAddBrand): Response<ResponseBrand>
+
     @GET("wc/v3/products")
     suspend fun getSingleProducts(@Query("search") id: String): Response<List<LineItem>>
 
     @GET("wc/v3/orders")
     suspend fun getOrders(@Query("per_page") perPage: Int): Response<List<ResponseOrderItem>>
+
+    @GET("wc/v3/taxes/classes")
+    suspend fun getTaxClass(): Response<List<TaxCategories>>
 
     @POST("wc/v3/orders")
     suspend fun createOrders(@Body request: RequestCreateOrder): Response<ResponseOrderItem>

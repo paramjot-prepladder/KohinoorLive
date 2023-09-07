@@ -18,7 +18,7 @@ class OrderViewModel @Inject constructor(
     private val networkHelper: NetworkHelper
 ) : ViewModel() {
     private val _newsSource = MutableStateFlow<ResourceState<List<ResponseOrderItem>>>(
-        ResourceState.Loading
+        ResourceState.Idle
     )
     val orders: StateFlow<ResourceState<List<ResponseOrderItem>>>
         get() = _newsSource
@@ -36,7 +36,7 @@ class OrderViewModel @Inject constructor(
     }
 
     private val _createOrders = MutableStateFlow<ResourceState<ResponseOrderItem>>(
-        ResourceState.Loading
+        ResourceState.Idle
     )
     val createOrders: StateFlow<ResourceState<ResponseOrderItem>>
         get() = _createOrders

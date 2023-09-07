@@ -3,7 +3,9 @@ package com.param.kohinoor.ui.home
 import android.app.Application
 import com.param.exercise.utils.ResourceState
 import com.param.kohinoor.ApiInterface
+import com.param.kohinoor.pojo.RequestAddBrand
 import com.param.kohinoor.pojo.brand.ResponseBrand
+import com.param.kohinoor.pojo.brand.TaxCategories
 import com.param.kohinoor.pojo.gallery.ResponseGallery
 import com.param.kohinoor.pojo.order.LineItem
 import com.param.kohinoor.pojo.product.ResponseProductListingItem
@@ -66,10 +68,42 @@ class ProductRepository @Inject constructor(
         }
     }
 
+    suspend fun addBrand(request: RequestAddBrand): ResourceState<ResponseBrand> {
+        return try {
+
+            val response = apiInterface.addBrand(request)
+
+            val result = response.body()
+            if (response.isSuccessful && result != null) {
+                ResourceState.Success(result)
+            } else {
+                ResourceState.Error(java.lang.Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            ResourceState.Error(java.lang.Exception(e.message ?: "An Error Occurred"))
+        }
+    }
+
     suspend fun getSingleProducts(id: String): ResourceState<List<LineItem>> {
         return try {
 
             val response = apiInterface.getSingleProducts(id)
+
+            val result = response.body()
+            if (response.isSuccessful && result != null) {
+                ResourceState.Success(result)
+            } else {
+                ResourceState.Error(java.lang.Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            ResourceState.Error(java.lang.Exception(e.message ?: "An Error Occurred"))
+        }
+    }
+
+    suspend fun getTaxClass(): ResourceState<List<TaxCategories>> {
+        return try {
+
+            val response = apiInterface.getTaxClass()
 
             val result = response.body()
             if (response.isSuccessful && result != null) {

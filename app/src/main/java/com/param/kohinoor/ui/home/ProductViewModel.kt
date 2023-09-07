@@ -4,7 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.param.exercise.utils.NetworkHelper
 import com.param.exercise.utils.ResourceState
+import com.param.kohinoor.pojo.RequestAddBrand
 import com.param.kohinoor.pojo.brand.ResponseBrand
+import com.param.kohinoor.pojo.brand.TaxCategories
 import com.param.kohinoor.pojo.gallery.ResponseGallery
 import com.param.kohinoor.pojo.order.LineItem
 import com.param.kohinoor.pojo.product.ResponseProductListingItem
@@ -69,8 +71,25 @@ class ProductViewModel @Inject constructor(
         }
     }
 
+    private val _addBrand =
+        MutableStateFlow<ResourceState<ResponseBrand>>(ResourceState.Idle)
+    val addBrand: StateFlow<ResourceState<ResponseBrand>>
+        get() = _addBrand
+
+    fun addBrand(request: RequestAddBrand) {
+        viewModelScope.launch {
+            _addBrand.value = ResourceState.Loading
+            if (networkHelper.isNetworkConnected()) {
+                mainRepository.addBrand(request).let {
+                    _addBrand.value = it
+
+                }
+            } else _addBrand.value = ResourceState.Error(Exception("No Internet"))
+        }
+    }
+
     private val _singleProduct =
-        MutableStateFlow<ResourceState<List<LineItem>>>(ResourceState.Loading)
+        MutableStateFlow<ResourceState<List<LineItem>>>(ResourceState.Idle)
     val singleProduct: StateFlow<ResourceState<List<LineItem>>>
         get() = _singleProduct
 
@@ -83,6 +102,23 @@ class ProductViewModel @Inject constructor(
 
                 }
             } else _singleProduct.value = ResourceState.Error(Exception("No Internet"))
+        }
+    }
+
+    private val _getTaxClass =
+        MutableStateFlow<ResourceState<List<TaxCategories>>>(ResourceState.Idle)
+    val getTaxClass: StateFlow<ResourceState<List<TaxCategories>>>
+        get() = _getTaxClass
+
+    fun getTaxClass() {
+        viewModelScope.launch {
+            _getTaxClass.value = ResourceState.Loading
+            if (networkHelper.isNetworkConnected()) {
+                mainRepository.getTaxClass().let {
+                    _getTaxClass.value = it
+
+                }
+            } else _getTaxClass.value = ResourceState.Error(Exception("No Internet"))
         }
     }
 

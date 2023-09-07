@@ -8,7 +8,9 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/addOrder"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -16,6 +18,7 @@
 
             <ImageView
                 android:id="@+id/productImage"
+                android:src="@drawable/ic_default_placeholder"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_200sdp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -108,6 +111,7 @@
                 app:layout_constraintEnd_toEndOf="@id/lastName"
                 app:layout_constraintStart_toEndOf="@id/city"
                 app:layout_constraintTop_toTopOf="@+id/city" />
+
             <Spinner
                 android:id="@+id/brandSpinner"
                 style="@style/Small"

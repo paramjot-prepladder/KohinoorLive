@@ -131,6 +131,8 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.singleProduct.collect {
