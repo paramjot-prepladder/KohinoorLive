@@ -52,6 +52,7 @@ class AddOrderFragment : Fragment() {
     val list: MutableList<LineItem> = arrayListOf()
     var bottomSheet: BottomSheetDialog? = null
     var dataToReturn: LineItem? = null
+    var selectedState = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +60,10 @@ class AddOrderFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+    }
+
+    fun showToast(value: String) {
+        Toast.makeText(activity, value, Toast.LENGTH_LONG).show()
     }
 
     override fun onCreateView(
@@ -90,7 +95,9 @@ class AddOrderFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                Toast.makeText(activity, "" + position, Toast.LENGTH_LONG).show()
+                val a = activity?.resources?.getStringArray(R.array.state)
+                selectedState = a?.get(position) ?: ""
+                Toast.makeText(activity, "$selectedState $position", Toast.LENGTH_LONG).show()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -104,8 +111,8 @@ class AddOrderFragment : Fragment() {
         }
         binding?.addProductRecycler?.adapter = orderDetailAdapter
         bottomSheet = BottomSheetDialog(viewModel) {
-            if (dataToReturn==null){
-                Toast.makeText(activity,"Something went wrong",Toast.LENGTH_LONG).show()
+            if (dataToReturn == null) {
+                Toast.makeText(activity, "Something went wrong", Toast.LENGTH_LONG).show()
                 return@BottomSheetDialog
             }
             dataToReturn?.quantity = it.toInt()
@@ -121,6 +128,46 @@ class AddOrderFragment : Fragment() {
             bottomSheet?.show(parentFragmentManager, "ModalBottomSheet")
         }
         binding?.addOrder?.setOnClickListener {
+            if (binding?.address1?.text.toString().trim().isBlank()) {
+                showToast("kindly enter address 1")
+                return@setOnClickListener
+            }
+            if (binding?.address2?.text.toString().trim().isBlank()) {
+                showToast("kindly enter address 2")
+                return@setOnClickListener
+            }
+            if (binding?.city?.text.toString().trim().isBlank()) {
+                showToast("kindly enter city")
+                return@setOnClickListener
+            }
+            if (binding?.country?.text.toString().trim().isBlank()) {
+                showToast("kindly enter country")
+                return@setOnClickListener
+            }
+            if (binding?.email?.text.toString().trim().isBlank()) {
+                showToast("kindly enter email")
+                return@setOnClickListener
+            }
+            if (binding?.firstName?.text.toString().trim().isBlank()) {
+                showToast("kindly enter firstName")
+                return@setOnClickListener
+            }
+            if (binding?.lastName?.text.toString().trim().isBlank()) {
+                showToast("kindly enter lastName")
+                return@setOnClickListener
+            }
+            if (binding?.phone?.text.toString().trim().isBlank()) {
+                showToast("kindly enter phone")
+                return@setOnClickListener
+            }
+            if (binding?.zipcode?.text.toString().trim().isBlank()) {
+                showToast("kindly enter zipcode")
+                return@setOnClickListener
+            }
+            if (selectedState.trim().isBlank()) {
+                showToast("kindly select state")
+                return@setOnClickListener
+            }
             binding?.apply {
 
                 val billing = Billing(
@@ -133,7 +180,7 @@ class AddOrderFragment : Fragment() {
                     lastName = lastName.text.toString(),
                     phone = phone.text.toString(),
                     postcode = zipcode.text.toString(),
-                    state = "" //TODO set state and validation
+                    state = selectedState
                 )
                 val lineItem = arrayListOf<com.param.kohinoor.pojo.createOrder.LineItem>()
                 orderDetailAdapter?.differ?.currentList?.forEach {

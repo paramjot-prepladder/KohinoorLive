@@ -23,6 +23,7 @@ import com.anilokcun.uwmediapicker.model.UwMediaPickerMediaModel
 import com.param.exercise.utils.ResourceState
 import com.param.exercise.utils.gone
 import com.param.exercise.utils.hide
+import com.param.exercise.utils.loadImg
 import com.param.exercise.utils.show
 import com.param.kohinoor.R
 import com.param.kohinoor.databinding.FragmentSlideshowBinding
@@ -59,6 +60,7 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
         if (uri != null) {
 
             val a = activity?.let { FileUtils(it).getPath(uri) }
+            binding.productImage.loadImg(a)
             onMediaSelected(a)
             Log.d("PhotoPicker", "Selected URI: $uri $a")
         } else {
