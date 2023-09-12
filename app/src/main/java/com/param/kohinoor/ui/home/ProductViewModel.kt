@@ -11,6 +11,7 @@ import com.param.kohinoor.pojo.gallery.ResponseGallery
 import com.param.kohinoor.pojo.order.LineItem
 import com.param.kohinoor.pojo.product.ResponseProductListingItem
 import com.param.kohinoor.pojo.product.createRequest.RequestCreateProduct
+import com.param.kohinoor.pojo.product.createRequest.RequestUpdateProduct
 import com.param.kohinoor.pojo.singleProduct.ResponseSingleProduct
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -102,6 +103,23 @@ class ProductViewModel @Inject constructor(
 
                 }
             } else _singleProduct.value = ResourceState.Error(Exception("No Internet"))
+        }
+    }
+
+    private val _updateProduct =
+        MutableStateFlow<ResourceState<LineItem>>(ResourceState.Idle)
+    val updateProduct: StateFlow<ResourceState<LineItem>>
+        get() = _updateProduct
+
+    fun updateSingleProducts(id: Int, update: RequestUpdateProduct) {
+        viewModelScope.launch {
+            _updateProduct.value = ResourceState.Loading
+            if (networkHelper.isNetworkConnected()) {
+                mainRepository.updateSingleProducts(id, update).let {
+                    _updateProduct.value = it
+
+                }
+            } else _updateProduct.value = ResourceState.Error(Exception("No Internet"))
         }
     }
 

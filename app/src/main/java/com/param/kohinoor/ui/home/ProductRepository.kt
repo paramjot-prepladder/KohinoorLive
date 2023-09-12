@@ -10,6 +10,7 @@ import com.param.kohinoor.pojo.gallery.ResponseGallery
 import com.param.kohinoor.pojo.order.LineItem
 import com.param.kohinoor.pojo.product.ResponseProductListingItem
 import com.param.kohinoor.pojo.product.createRequest.RequestCreateProduct
+import com.param.kohinoor.pojo.product.createRequest.RequestUpdateProduct
 import com.param.kohinoor.pojo.singleProduct.ResponseSingleProduct
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -52,6 +53,7 @@ class ProductRepository @Inject constructor(
             ResourceState.Error(java.lang.Exception(e.message ?: "An Error Occurred"))
         }
     }
+
     suspend fun getBrand(): ResourceState<ResponseBrand> {
         return try {
 
@@ -88,6 +90,25 @@ class ProductRepository @Inject constructor(
         return try {
 
             val response = apiInterface.getSingleProducts(id)
+
+            val result = response.body()
+            if (response.isSuccessful && result != null) {
+                ResourceState.Success(result)
+            } else {
+                ResourceState.Error(java.lang.Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            ResourceState.Error(java.lang.Exception(e.message ?: "An Error Occurred"))
+        }
+    }
+
+    suspend fun updateSingleProducts(
+        id: Int,
+        body: RequestUpdateProduct
+    ): ResourceState<LineItem> {
+        return try {
+
+            val response = apiInterface.updateSingleProducts(id, body)
 
             val result = response.body()
             if (response.isSuccessful && result != null) {
@@ -138,7 +159,8 @@ class ProductRepository @Inject constructor(
     ): ResourceState<ResponseGallery> {
         return try {
 
-            val response = apiInterface.addImage(/*productId.toRequestBody(MultipartBody.FORM),*/ parts)
+            val response =
+                apiInterface.addImage(/*productId.toRequestBody(MultipartBody.FORM),*/ parts)
 
             val result = response.body()
             if (response.isSuccessful && result != null) {

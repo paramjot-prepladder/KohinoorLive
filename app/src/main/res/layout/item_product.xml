@@ -38,7 +38,7 @@
             android:background="@color/text_color_grey"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Hide"
+            android:text="Stock"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

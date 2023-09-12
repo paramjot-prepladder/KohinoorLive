@@ -97,7 +97,6 @@ class AddOrderFragment : Fragment() {
             ) {
                 val a = activity?.resources?.getStringArray(R.array.state)
                 selectedState = a?.get(position) ?: ""
-                Toast.makeText(activity, "$selectedState $position", Toast.LENGTH_LONG).show()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -164,7 +163,7 @@ class AddOrderFragment : Fragment() {
                 showToast("kindly enter zipcode")
                 return@setOnClickListener
             }
-            if (selectedState.trim().isBlank()) {
+            if (selectedState.trim().isBlank() || selectedState == "Select State") {
                 showToast("kindly select state")
                 return@setOnClickListener
             }

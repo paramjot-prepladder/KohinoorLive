@@ -21,6 +21,8 @@ import com.param.exercise.utils.hide
 import com.param.exercise.utils.show
 import com.param.kohinoor.R
 import com.param.kohinoor.databinding.FragmentHomeBinding
+import com.param.kohinoor.pojo.order.LineItem
+import com.param.kohinoor.pojo.product.createRequest.RequestUpdateProduct
 import com.param.kohinoor.utils.RecyclerTouchListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -59,7 +61,7 @@ class HomeFragment : Fragment() {
             if ((it?.length ?: 0) > 2) {
                 viewModel.getSingleProducts(it.toString())
             }
-            if (it?.length == 0){
+            if (it?.length == 0) {
                 viewModel.getProducts()
             }
         }
@@ -72,11 +74,11 @@ class HomeFragment : Fragment() {
         val touchListener = RecyclerTouchListener(activity, binding.recyclerView)
         touchListener.setClickable(object : RecyclerTouchListener.OnRowClickListener {
             override fun onRowClicked(position: Int) {
-                Toast.makeText(
-                    activity,
-                    adapterProductListing?.differ?.currentList?.get(position)?.name,
-                    Toast.LENGTH_SHORT
-                ).show()
+//                Toast.makeText(
+//                    activity,
+//                    adapterProductListing?.differ?.currentList?.get(position)?.name,
+//                    Toast.LENGTH_SHORT
+//                ).show()
             }
 
             override fun onIndependentViewClicked(independentViewID: Int, position: Int) {}
@@ -87,18 +89,18 @@ class HomeFragment : Fragment() {
             ) { viewID, position ->
                 when (viewID) {
                     R.id.prices -> {
-                        Toast.makeText(
-                            activity,
-                            "Price Not Available",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        showUpdateBottomSheet(
+                            true,
+                            adapterProductListing?.differ?.currentList?.get(position)
+                        )
                     }
 
-                    R.id.hide -> Toast.makeText(
-                        activity,
-                        "Edit Not Available",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    R.id.hide -> {
+                        showUpdateBottomSheet(
+                            false,
+                            adapterProductListing?.differ?.currentList?.get(position)
+                        )
+                    }
                 }
             }
         binding.recyclerView.addOnItemTouchListener(touchListener)
@@ -119,6 +121,29 @@ class HomeFragment : Fragment() {
                     is ResourceState.Success -> {
                         binding.progressBar.hide()
                         adapterProductListing?.submitList(it.item)
+                        Log.e("handdy", it.item.toString())
+                    }
+
+                    is ResourceState.Error -> {
+                        Toast.makeText(activity, "Something when wrong", Toast.LENGTH_LONG).show()
+                        Log.e("handdy", "error")
+                    }
+
+                    else -> {}
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.updateProduct.collect {
+                when (it) {
+                    is ResourceState.Loading -> {
+                        binding.progressBar.show()
+                        Log.e("handdy", "Loadong")
+                    }
+
+                    is ResourceState.Success -> {
+                        binding.progressBar.hide()
+                        viewModel.getProducts()
                         Log.e("handdy", it.item.toString())
                     }
 
@@ -163,6 +188,20 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun showUpdateBottomSheet(isPrice: Boolean, lineItem: LineItem?) {
+        UpdatePriceBottomSheet(isPrice) { ls ->
+            viewModel.updateSingleProducts(
+                lineItem?.id ?: 0,
+                if (isPrice) {
+                    RequestUpdateProduct(regularPrice = ls)
+                } else {
+                    RequestUpdateProduct(stockQuantity = ls)
+                }
+            )
+
+        }.show(parentFragmentManager, "updateSheet")
     }
 
     override fun onDestroyView() {

@@ -18,9 +18,9 @@
 
             <ImageView
                 android:id="@+id/productImage"
-                android:src="@drawable/ic_default_placeholder"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_200sdp"
+                android:src="@drawable/ic_default_placeholder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -92,12 +92,26 @@
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:background="@drawable/edittext_header"
                 android:gravity="center"
-                android:hint="Price"
+                android:hint="Regular Price"
                 android:inputType="numberDecimal"
                 android:padding="@dimen/_10sdp"
                 app:layout_constraintEnd_toStartOf="@id/taxSlab"
                 app:layout_constraintStart_toStartOf="@id/firstName"
                 app:layout_constraintTop_toBottomOf="@+id/address2" />
+
+            <EditText
+                android:id="@+id/salePrice"
+                style="@style/Small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:background="@drawable/edittext_header"
+                android:gravity="center"
+                android:hint="Sale Price"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="@id/lastName"
+                app:layout_constraintStart_toEndOf="@id/city"
+                app:layout_constraintTop_toTopOf="@+id/city" />
 
             <Spinner
                 android:id="@+id/taxSlab"
@@ -110,7 +124,7 @@
                 android:padding="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="@id/lastName"
                 app:layout_constraintStart_toEndOf="@id/city"
-                app:layout_constraintTop_toTopOf="@+id/city" />
+                app:layout_constraintTop_toTopOf="@+id/brandSpinner" />
 
             <Spinner
                 android:id="@+id/brandSpinner"

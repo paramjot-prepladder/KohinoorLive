@@ -133,7 +133,6 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
             ) {
                 val a = listTaxClass[position]
                 selectedTaxSlab = a.slug ?: ""
-                Toast.makeText(activity, "$selectedTaxSlab $position", Toast.LENGTH_LONG).show()
 
             }
 
@@ -153,7 +152,6 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
                 ) {
                     val a = brandHashMap.keys.toList().get(position)
                     selectedBrand = brandHashMap[a] ?: ""
-                    Toast.makeText(activity, a + " " + position, Toast.LENGTH_LONG).show()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -171,7 +169,7 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
 
                     is ResourceState.Success -> {
                         binding.progressBar.hide()
-                        listTaxClass.add(TaxCategories(-1,"Select Tax",""))
+                        listTaxClass.add(TaxCategories(-1, "Select Tax", ""))
                         listTaxClass.addAll(it.item)
 //                        listTaxClass = it.item as ArrayList<TaxCategories>
                         ArrayAdapter(
@@ -255,7 +253,7 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
                     }
 
                     is ResourceState.Success -> {
-                        productImagePath = it.item.toString()
+                        productImagePath = it.item.data[0]
                         Log.e("got_image", it.item.toString())
                         binding.progressBar.hide()
                     }
@@ -304,12 +302,16 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
                     showToast("kindly enter price")
                     return@setOnClickListener
                 }
-                if (selectedBrand.trim().isBlank()) {
-                    showToast("kindly enter brand")
+                if (salePrice.text.toString().trim().isBlank()) {
+                    showToast("kindly enter sale price")
                     return@setOnClickListener
                 }
-                if (selectedTaxSlab.isBlank()) {
-                    showToast("kindly enter Tax slab")
+                if (selectedBrand.trim().isBlank() || selectedBrand == "Select Brand") {
+                    showToast("kindly Select brand")
+                    return@setOnClickListener
+                }
+                if (selectedTaxSlab.isBlank() || selectedTaxSlab == "Select Tax") {
+                    showToast("kindly Select Tax slab")
                     return@setOnClickListener
                 }
                 viewModel.createProduct(
@@ -319,6 +321,7 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
                         images = mutableListOf(Image(src = productImagePath)),
                         name = firstName.text.toString(),
                         regularPrice = city.text.toString(),
+                        salePrice = salePrice.text.toString(),
                         shortDescription = address2.text.toString(),
                         taxClass = selectedTaxSlab
                     )
