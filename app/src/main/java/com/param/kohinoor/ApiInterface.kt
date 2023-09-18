@@ -4,6 +4,8 @@ import com.param.kohinoor.pojo.RequestAddBrand
 import com.param.kohinoor.pojo.brand.ResponseBrand
 import com.param.kohinoor.pojo.brand.TaxCategories
 import com.param.kohinoor.pojo.createOrder.RequestCreateOrder
+import com.param.kohinoor.pojo.dpd.ResponseGetDpd
+import com.param.kohinoor.pojo.dpd.createDpd.RequestCreateDpd
 import com.param.kohinoor.pojo.gallery.ResponseGallery
 import com.param.kohinoor.pojo.order.LineItem
 import com.param.kohinoor.pojo.product.ResponseProductListingItem
@@ -33,6 +35,12 @@ interface ApiInterface {
     @GET("koh-app/wc/v3/category/brands/view")
     suspend fun getBrand(): Response<ResponseBrand>
 
+    @GET("koh-app/wc/v3/order/show-dpd-label")
+    suspend fun getDpd(@Query("order_id") perPage: Int): Response<ResponseGetDpd>
+
+    @POST("koh-app/wc/v3/order/create-dpd-label")
+    suspend fun createDpd(@Body request: RequestCreateDpd): Response<ResponseGetDpd>
+
     @POST("koh-app/wc/v3/category/brand/add")
     suspend fun addBrand(@Body request: RequestAddBrand): Response<ResponseBrand>
 
@@ -44,6 +52,12 @@ interface ApiInterface {
         @Path("search") id: Int,
         @Body request: RequestUpdateProduct
     ): Response<LineItem>
+
+    @PUT("wc/v3/orders/{search}")
+    suspend fun updatOrder(
+        @Path("search") id: Int,
+        @Body request: RequestCreateOrder
+    ): Response<ResponseOrderItem>
 
     @GET("wc/v3/orders")
     suspend fun getOrders(@Query("per_page") perPage: Int): Response<List<ResponseOrderItem>>

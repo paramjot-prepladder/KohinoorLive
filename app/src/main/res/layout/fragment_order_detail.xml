@@ -38,6 +38,33 @@
                 tools:text="Mon May 15 2023 05:40 PM" />
 
             <TextView
+                android:id="@+id/trackingId"
+                style="@style/Mini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_cloud_download"
+                android:gravity="center"
+                android:textColor="@color/text_color_blue"
+                android:textStyle="italic"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/orderNo"
+                tools:text="Mon May 15 2023 05:40 PM" />
+
+            <TextView
+                android:id="@+id/createShippingLabel"
+                style="@style/Mini"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Create Shipping Label"
+                android:textColor="@color/text_color_blue"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/orderNo"
+                app:layout_constraintTop_toTopOf="@id/date" />
+
+            <TextView
                 android:id="@+id/customer"
                 style="@style/Mini"
                 android:layout_width="wrap_content"
@@ -46,6 +73,14 @@
                 android:text="Customer"
                 app:layout_constraintStart_toStartOf="@id/orderNo"
                 app:layout_constraintTop_toBottomOf="@id/date" />
+
+            <ImageView
+                android:id="@+id/editCustomer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/customer" />
 
             <TextView
                 android:id="@+id/name"
@@ -121,4 +156,14 @@
                 app:layout_constraintTop_toBottomOf="@id/detail" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

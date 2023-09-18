@@ -23,7 +23,7 @@ class OrderListingAdapter(val listener: (ResponseOrderItem) -> Unit) :
                     listener(data)
                 }
                 statusText.setStatus(data.status, status)
-                price.text = data.total
+                price.text = "€" +data.total
                 mobile.text = data.billing?.phone
                 orderNo.text = "Order #" + data.id
                 name.text = "${data.billing?.firstName} ${data.billing?.lastName}"

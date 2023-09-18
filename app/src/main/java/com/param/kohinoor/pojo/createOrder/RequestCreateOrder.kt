@@ -7,17 +7,19 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class RequestCreateOrder(
     @Json(name = "billing")
-    val billing: Billing?,
+    var billing: Billing? = null,
     @Json(name = "line_items")
-    val lineItems: List<LineItem>?,
+    var lineItems: List<LineItem>? = null,
     @Json(name = "payment_method")
-    val paymentMethod: String?,
+    var paymentMethod: String? = null,
     @Json(name = "payment_method_title")
-    val paymentMethodTitle: String?,
+    var paymentMethodTitle: String? = null,
     @Json(name = "set_paid")
-    val setPaid: Boolean?,
+    var setPaid: Boolean? = null,
     @Json(name = "shipping")
-    val shipping: Billing?,
+    var shipping: Billing? = null,
     @Json(name = "shipping_lines")
-    val shippingLines: List<ShippingLine>?
+    var shippingLines: List<ShippingLine>? = null,
+    @Json(name = "status")
+    var status: String? = null
 )

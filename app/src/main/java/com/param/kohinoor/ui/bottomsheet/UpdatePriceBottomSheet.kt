@@ -1,4 +1,4 @@
-package com.param.kohinoor.ui.home
+package com.param.kohinoor.ui.bottomsheet
 
 import android.os.Bundle
 import android.view.LayoutInflater

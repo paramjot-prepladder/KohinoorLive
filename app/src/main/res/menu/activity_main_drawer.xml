@@ -7,11 +7,11 @@
         <item
             android:id="@+id/nav_home"
 
-            android:title="Product" />
+            android:title="All Product" />
         <item
             android:id="@+id/nav_gallery"
 
-            android:title="Order" />
+            android:title="All Order" />
         <item
             android:id="@+id/nav_slideshow"
 

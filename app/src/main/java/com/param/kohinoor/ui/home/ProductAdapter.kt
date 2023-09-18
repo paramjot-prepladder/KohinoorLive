@@ -21,8 +21,9 @@ class ProductAdapter(val listener: (LineItem) -> Unit) :
                     listener(data)
                 }
                 productName.text = data.name
+                sku.text = "SKU:" + data.sku
                 desc.setHtml(data.shortDescription ?: "")
-                price.text = data.price.toString()
+                price.text = "€" + data.price.toString()
                 if (data.images?.isNotEmpty() == true)
                     productImage.loadImg(data.images[0]?.src)
             }
@@ -62,7 +63,7 @@ class ProductAdapter(val listener: (LineItem) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.onBind(differ.currentList[position],listener)
+        holder.onBind(differ.currentList[position], listener)
     }
 
 }
