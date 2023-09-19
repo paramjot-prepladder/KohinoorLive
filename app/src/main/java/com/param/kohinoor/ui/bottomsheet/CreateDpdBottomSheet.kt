@@ -13,7 +13,7 @@ import com.param.kohinoor.R
 import com.param.kohinoor.pojo.createOrder.Billing
 import com.param.kohinoor.pojo.dpd.createDpd.RequestCreateDpd
 
-class CreateDpdBottomSheet(val listener: (RequestCreateDpd) -> Unit) :
+class CreateDpdBottomSheet(private val orderID: Int?, val listener: (RequestCreateDpd) -> Unit) :
     BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +30,7 @@ class CreateDpdBottomSheet(val listener: (RequestCreateDpd) -> Unit) :
             if (quantity.text.trim().isNotBlank()) {
                 listener(
                     RequestCreateDpd(
-                        quantity.text.toString(), checkBox.isChecked
+                        quantity.text.toString(), checkBox.isChecked, orderID
                     )
                 )
                 dismiss()

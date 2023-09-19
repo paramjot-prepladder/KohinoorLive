@@ -8,6 +8,8 @@ data class RequestCreateDpd(
     @Json(name = "parcel_content")
     val parcelContent: String?,
     @Json(name = "disable_order_completion")
-    val disableOrderCompletion: Boolean?
+    val disableOrderCompletion: Boolean?,
+    @Json(name = "order_id")
+    val orderId: Int?
 ) {
 }

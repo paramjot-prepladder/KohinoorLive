@@ -147,7 +147,7 @@ class OrderDetailFragment : Fragment() {
         binding?.apply {
             setData(data)
             createShippingLabel.setOnClickListener {
-                CreateDpdBottomSheet {
+                CreateDpdBottomSheet(data.id) {
                     orderViewModel.createDpd(it)
                 }.show(parentFragmentManager, "createDpd")
 
