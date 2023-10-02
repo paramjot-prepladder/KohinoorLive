@@ -106,6 +106,18 @@ class ProductViewModel @Inject constructor(
         }
     }
 
+    fun getSingleProduct(id: Int) {
+        viewModelScope.launch {
+            _singleProduct.value = ResourceState.Loading
+            if (networkHelper.isNetworkConnected()) {
+                mainRepository.getSingleProduct(id).let {
+                    _singleProduct.value = it
+
+                }
+            } else _singleProduct.value = ResourceState.Error(Exception("No Internet"))
+        }
+    }
+
     private val _updateProduct =
         MutableStateFlow<ResourceState<LineItem>>(ResourceState.Idle)
     val updateProduct: StateFlow<ResourceState<LineItem>>

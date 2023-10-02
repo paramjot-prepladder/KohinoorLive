@@ -9,7 +9,11 @@
         android:id="@+id/nav_home"
         android:name="com.param.kohinoor.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_nav_home_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -40,6 +44,15 @@
         <argument
             android:name="data"
             app:argType="com.param.kohinoor.pojo.order.ResponseOrderItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.param.kohinoor.ui.productDetails.ProductDetailFragment"
+        android:label="ProductDetailFragment">
+        <argument
+            android:name="productDetail"
+            app:argType="com.param.kohinoor.pojo.order.LineItem"
+            app:nullable="true" />
     </fragment>
 
 </navigation>

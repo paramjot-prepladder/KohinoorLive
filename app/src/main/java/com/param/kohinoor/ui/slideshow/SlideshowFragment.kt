@@ -1,7 +1,10 @@
 package com.param.kohinoor.ui.slideshow
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -14,6 +17,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -54,6 +60,15 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
     var list: List<LineItem> = arrayListOf()
     var parts: ArrayList<MultipartBody.Part> = ArrayList()
     var productImagePath = ""
+    val permReqLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val granted = permissions.entries.all {
+                it.value
+            }
+            if (granted) {
+                openPicker()
+            }
+        }
     val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         // Callback is invoked after the user selects a media item or closes the
         // photo picker.
@@ -71,7 +86,8 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
     var selectedTaxSlab = ""
     var selectedBrand = ""
     private var listTaxClass: ArrayList<TaxCategories> = arrayListOf()
-//    val hashTaxSlab = mapOf<String, String>(
+
+    //    val hashTaxSlab = mapOf<String, String>(
 //        "Standard rate" to "standard",
 //        "Greater reduced rate" to "greater-reduced-rate",
 //        "GST 19%" to "gst-19",
@@ -80,6 +96,24 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
 //        "Super reduced rate" to "super-reduced-rate",
 //        "Zero rate" to "zero-rate"
 //    )
+    fun checkPermission() {
+        val readImagePermission =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) Manifest.permission.READ_MEDIA_IMAGES else Manifest.permission.READ_EXTERNAL_STORAGE
+        if (activity?.let {
+                checkSelfPermission(
+                    it,
+                    readImagePermission
+                )
+            } == PackageManager.PERMISSION_GRANTED) {
+            //permission granted
+            openPicker()
+        } else {
+            permReqLauncher.launch(arrayOf(readImagePermission))
+            //permission not granted
+        }
+
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -259,7 +293,11 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
                     }
 
                     is ResourceState.Error -> {
-                        Toast.makeText(activity, "Something when wrong", Toast.LENGTH_LONG).show()
+                        Toast.makeText(
+                            activity,
+                            "Something when wrong " + it.throwable.message,
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
 
                     else -> {}
@@ -274,7 +312,7 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
             }
         }
         binding.productImage.setOnClickListener {
-            openPicker()
+            checkPermission()
         }
         binding.apply {
             addOrder.setOnClickListener {
@@ -284,6 +322,10 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
                 }
                 if (listCategory.isEmpty()) {
                     showToast("Kindly add category")
+                    return@setOnClickListener
+                }
+                if (sku.text.toString().trim().isBlank()) {
+                    showToast("kindly enter sku")
                     return@setOnClickListener
                 }
                 if (firstName.text.toString().trim().isBlank()) {
@@ -323,12 +365,13 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
                         regularPrice = city.text.toString(),
                         salePrice = salePrice.text.toString(),
                         shortDescription = address2.text.toString(),
+                        sku = sku.text.toString(),
                         taxClass = selectedTaxSlab
                     )
                 )
             }
         }
-        categoryAdapter = CategoryAdapter() {
+        categoryAdapter = CategoryAdapter {
 
         }
         binding.addProductRecycler.adapter = categoryAdapter

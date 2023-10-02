@@ -23,6 +23,8 @@ data class RequestCreateProduct(
     val shortDescription: String?,
     @Json(name = "tax_class")
     val taxClass: String?,
+    @Json(name = "sku")
+    val sku: String?,
     @Json(name = "type")
     val type: String? = "simple"
 )

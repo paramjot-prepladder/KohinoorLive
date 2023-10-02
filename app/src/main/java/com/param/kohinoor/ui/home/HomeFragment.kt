@@ -16,6 +16,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.param.exercise.utils.ResourceState
 import com.param.exercise.utils.hide
 import com.param.exercise.utils.show
@@ -75,6 +76,11 @@ class HomeFragment : Fragment() {
         val touchListener = RecyclerTouchListener(activity, binding.recyclerView)
         touchListener.setClickable(object : RecyclerTouchListener.OnRowClickListener {
             override fun onRowClicked(position: Int) {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionNavHomeToProductDetailFragment(
+                        adapterProductListing?.differ?.currentList?.get(position)
+                    )
+                )
 //                Toast.makeText(
 //                    activity,
 //                    adapterProductListing?.differ?.currentList?.get(position)?.name,

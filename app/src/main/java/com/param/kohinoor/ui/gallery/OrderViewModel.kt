@@ -8,6 +8,7 @@ import com.param.kohinoor.pojo.RequestAddBrand
 import com.param.kohinoor.pojo.createOrder.RequestCreateOrder
 import com.param.kohinoor.pojo.dpd.ResponseGetDpd
 import com.param.kohinoor.pojo.dpd.createDpd.RequestCreateDpd
+import com.param.kohinoor.pojo.order.RequestDeleteOrder
 import com.param.kohinoor.pojo.order.ResponseOrderItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,6 +36,18 @@ class OrderViewModel @Inject constructor(
 
                 }
             } else _newsSource.value = ResourceState.Error(Exception("No Internet"))
+        }
+    }
+
+    fun getOrder(orderId: Int) {
+        viewModelScope.launch {
+            _createOrders.value = ResourceState.Loading
+            if (networkHelper.isNetworkConnected()) {
+                mainRepository.getOrder(orderId).let {
+                    _createOrders.value = it
+
+                }
+            } else _createOrders.value = ResourceState.Error(Exception("No Internet"))
         }
     }
 
@@ -91,6 +104,18 @@ class OrderViewModel @Inject constructor(
             _createOrders.value = ResourceState.Loading
             if (networkHelper.isNetworkConnected()) {
                 mainRepository.updateOrder(id, request).let {
+                    _createOrders.value = it
+
+                }
+            } else _createOrders.value = ResourceState.Error(Exception("No Internet"))
+        }
+    }
+
+    fun deleteOrder(request: RequestDeleteOrder) {
+        viewModelScope.launch {
+            _createOrders.value = ResourceState.Loading
+            if (networkHelper.isNetworkConnected()) {
+                mainRepository.deleteOrder(request).let {
                     _createOrders.value = it
 
                 }

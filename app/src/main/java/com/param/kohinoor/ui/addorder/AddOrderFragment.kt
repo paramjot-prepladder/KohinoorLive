@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.google.gson.Gson
 import com.param.exercise.utils.ResourceState
 import com.param.exercise.utils.gone
@@ -29,10 +30,12 @@ import com.param.kohinoor.pojo.createOrder.RequestCreateOrder
 import com.param.kohinoor.pojo.createOrder.ShippingLine
 import com.param.kohinoor.pojo.order.LineItem
 import com.param.kohinoor.ui.gallery.OrderViewModel
+import com.param.kohinoor.ui.home.HomeFragmentDirections
 import com.param.kohinoor.ui.home.ProductAdapter
 import com.param.kohinoor.ui.home.ProductViewModel
 import com.param.kohinoor.ui.orderDetail.OrderDetailAdapter
 import com.param.kohinoor.utils.BottomSheetDialog
+import com.param.kohinoor.utils.RecyclerTouchListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -104,6 +107,30 @@ class AddOrderFragment : Fragment() {
             }
 
         }
+        val touchListener = RecyclerTouchListener(activity, binding?.addProductRecycler)
+        touchListener.setClickable(object : RecyclerTouchListener.OnRowClickListener {
+            override fun onRowClicked(position: Int) {
+
+            }
+
+            override fun onIndependentViewClicked(independentViewID: Int, position: Int) {}
+        })
+            .setSwipeOptionViews(R.id.hide, R.id.prices)
+            .setSwipeable(
+                R.id.rowFG, R.id.rowBG
+            ) { viewID, position ->
+                when (viewID) {
+                    R.id.delete -> {
+//                        showUpdateBottomSheet(
+//                            true,
+//                            adapterProductListing?.differ?.currentList?.get(position)
+//                        )
+                    }
+
+
+                }
+            }
+        binding?.addProductRecycler?.addOnItemTouchListener(touchListener)
 
         orderDetailAdapter = OrderDetailAdapter("") {
 

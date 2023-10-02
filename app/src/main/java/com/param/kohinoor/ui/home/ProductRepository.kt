@@ -101,6 +101,21 @@ class ProductRepository @Inject constructor(
             ResourceState.Error(java.lang.Exception(e.message ?: "An Error Occurred"))
         }
     }
+    suspend fun getSingleProduct(id: Int): ResourceState<List<LineItem>> {
+        return try {
+
+            val response = apiInterface.getSingleProduct(id)
+
+            val result = response.body()
+            if (response.isSuccessful && result != null) {
+                ResourceState.Success(result)
+            } else {
+                ResourceState.Error(java.lang.Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            ResourceState.Error(java.lang.Exception(e.message ?: "An Error Occurred"))
+        }
+    }
 
     suspend fun updateSingleProducts(
         id: Int,

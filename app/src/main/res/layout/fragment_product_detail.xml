@@ -25,41 +25,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/sku"
-                style="@style/Small"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_5sdp"
-                android:background="@drawable/edittext_header"
-                android:gravity="start"
-                android:hint="Sku"
-                android:padding="@dimen/_10sdp"
-                app:layout_constraintEnd_toStartOf="@id/lastName"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/productImage" />
-
-            <EditText
+            <TextView
                 android:id="@+id/firstName"
                 style="@style/Small"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
-                android:background="@drawable/edittext_header"
+
                 android:gravity="start"
                 android:hint="Name"
                 android:padding="@dimen/_10sdp"
                 app:layout_constraintEnd_toStartOf="@id/lastName"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sku" />
+                app:layout_constraintTop_toBottomOf="@id/productImage" />
 
-            <EditText
+            <TextView
                 android:id="@+id/lastName"
                 style="@style/Small"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
-                android:background="@drawable/edittext_header"
+
                 android:gravity="center"
                 android:hint="Last Name"
                 android:padding="@dimen/_10sdp"
@@ -68,13 +54,13 @@
                 app:layout_constraintStart_toEndOf="@id/firstName"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
+            <TextView
                 android:id="@+id/address1"
                 style="@style/Small"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/edittext_header"
+
                 android:gravity="start"
                 android:hint="Description"
                 android:lines="3"
@@ -83,13 +69,13 @@
                 app:layout_constraintStart_toStartOf="@id/firstName"
                 app:layout_constraintTop_toBottomOf="@+id/firstName" />
 
-            <EditText
+            <TextView
                 android:id="@+id/address2"
                 style="@style/Small"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/edittext_header"
+
                 android:gravity="start"
                 android:hint="Short Description"
                 android:padding="@dimen/_10sdp"
@@ -97,14 +83,14 @@
                 app:layout_constraintStart_toStartOf="@id/firstName"
                 app:layout_constraintTop_toBottomOf="@+id/address1" />
 
-            <EditText
+            <TextView
                 android:id="@+id/city"
                 style="@style/Small"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
-                android:background="@drawable/edittext_header"
+
                 android:gravity="center"
                 android:hint="Regular Price"
                 android:inputType="numberDecimal"
@@ -113,13 +99,13 @@
                 app:layout_constraintStart_toStartOf="@id/firstName"
                 app:layout_constraintTop_toBottomOf="@+id/address2" />
 
-            <EditText
+            <TextView
                 android:id="@+id/salePrice"
                 style="@style/Small"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:background="@drawable/edittext_header"
+
                 android:gravity="center"
                 android:hint="Sale Price"
                 android:padding="@dimen/_10sdp"
@@ -127,35 +113,35 @@
                 app:layout_constraintStart_toEndOf="@id/city"
                 app:layout_constraintTop_toTopOf="@+id/city" />
 
-            <Spinner
+            <TextView
                 android:id="@+id/taxSlab"
                 style="@style/Small"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:background="@drawable/edittext_header"
                 android:gravity="center"
+                android:hint="Tax Slab"
                 android:padding="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="@id/lastName"
                 app:layout_constraintStart_toEndOf="@id/city"
                 app:layout_constraintTop_toTopOf="@+id/brandSpinner" />
 
-            <Spinner
+            <TextView
                 android:id="@+id/brandSpinner"
                 style="@style/Small"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
-                android:background="@drawable/edittext_header"
                 android:gravity="center"
+                android:hint="Brand"
                 android:inputType="numberDecimal"
                 android:padding="@dimen/_10sdp"
                 app:layout_constraintEnd_toStartOf="@id/taxSlab"
                 app:layout_constraintStart_toStartOf="@id/firstName"
                 app:layout_constraintTop_toBottomOf="@+id/city" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+        <!--    <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/addProduct"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -202,7 +188,7 @@
                 app:layout_constraintStart_toStartOf="@id/addProduct"
                 app:layout_constraintTop_toBottomOf="@id/addProduct"
                 tools:listitem="@layout/item_order_product" />
-
+-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

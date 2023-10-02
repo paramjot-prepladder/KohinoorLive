@@ -8,6 +8,7 @@ import com.param.kohinoor.pojo.dpd.ResponseGetDpd
 import com.param.kohinoor.pojo.dpd.createDpd.RequestCreateDpd
 import com.param.kohinoor.pojo.gallery.ResponseGallery
 import com.param.kohinoor.pojo.order.LineItem
+import com.param.kohinoor.pojo.order.RequestDeleteOrder
 import com.param.kohinoor.pojo.product.ResponseProductListingItem
 import com.param.kohinoor.pojo.order.ResponseOrderItem
 import com.param.kohinoor.pojo.product.createRequest.RequestCreateProduct
@@ -47,6 +48,9 @@ interface ApiInterface {
     @GET("wc/v3/products")
     suspend fun getSingleProducts(@Query("search") id: String): Response<List<LineItem>>
 
+    @GET("wc/v3/products/{search}")
+    suspend fun getSingleProduct(@Path("search") id: Int): Response<List<LineItem>>
+
     @PUT("wc/v3/products/{search}")
     suspend fun updateSingleProducts(
         @Path("search") id: Int,
@@ -59,8 +63,16 @@ interface ApiInterface {
         @Body request: RequestCreateOrder
     ): Response<ResponseOrderItem>
 
+    @PUT("koh-app/wc/v3/order/product-list-delete")
+    suspend fun deleteOrder(
+        @Body request: RequestDeleteOrder
+    ): Response<ResponseOrderItem>
+
     @GET("wc/v3/orders")
     suspend fun getOrders(@Query("per_page") perPage: Int): Response<List<ResponseOrderItem>>
+
+    @GET("wc/v3/orders/{orderId}")
+    suspend fun getOrder(@Path("orderId") orderId: Int): Response<ResponseOrderItem>
 
     @GET("wc/v3/taxes/classes")
     suspend fun getTaxClass(): Response<List<TaxCategories>>

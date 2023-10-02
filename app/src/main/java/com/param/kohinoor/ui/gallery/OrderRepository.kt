@@ -7,6 +7,7 @@ import com.param.kohinoor.pojo.RequestAddBrand
 import com.param.kohinoor.pojo.createOrder.RequestCreateOrder
 import com.param.kohinoor.pojo.dpd.ResponseGetDpd
 import com.param.kohinoor.pojo.dpd.createDpd.RequestCreateDpd
+import com.param.kohinoor.pojo.order.RequestDeleteOrder
 import com.param.kohinoor.pojo.order.ResponseOrderItem
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -20,6 +21,21 @@ class OrderRepository @Inject constructor(
         return try {
 
             val response = apiInterface.getOrders(100)
+
+            val result = response.body()
+            if (response.isSuccessful && result != null) {
+                ResourceState.Success(result)
+            } else {
+                ResourceState.Error(java.lang.Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            ResourceState.Error(java.lang.Exception(e.message ?: "An Error Occurred"))
+        }
+    }
+    suspend fun getOrder(orderId:Int): ResourceState<ResponseOrderItem> {
+        return try {
+
+            val response = apiInterface.getOrder(orderId)
 
             val result = response.body()
             if (response.isSuccessful && result != null) {
@@ -55,6 +71,23 @@ class OrderRepository @Inject constructor(
         return try {
 
             val response = apiInterface.updatOrder(id, request)
+
+            val result = response.body()
+            if (response.isSuccessful && result != null) {
+                ResourceState.Success(result)
+            } else {
+                ResourceState.Error(java.lang.Exception(response.message()))
+            }
+        } catch (e: Exception) {
+            ResourceState.Error(java.lang.Exception(e.message ?: "An Error Occurred"))
+        }
+    }
+    suspend fun deleteOrder(
+        request: RequestDeleteOrder
+    ): ResourceState<ResponseOrderItem> {
+        return try {
+
+            val response = apiInterface.deleteOrder( request)
 
             val result = response.body()
             if (response.isSuccessful && result != null) {

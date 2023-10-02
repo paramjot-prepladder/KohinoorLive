@@ -19,12 +19,18 @@ data class LineItem(
 //    val metaData: List<Any?>?,
     @Json(name = "name")
     val name: String?,
+    @Json(name = "description")
+    val description: String?,
     @Json(name = "short_description")
     val shortDescription: String?,
 //    @Json(name = "parent_name")
 //    val parentName: Any?,
     @Json(name = "price")
     val price: Double?,
+    @Json(name = "regular_price")
+    val regularPrice: Double?,
+    @Json(name = "sale_price")
+    var salePrice: String?=null,
     @Json(name = "product_id")
     val productId: Int?,
     @Json(name = "quantity")
