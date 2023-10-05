@@ -31,7 +31,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
-
+                android:drawableEnd="@drawable/ic_edit"
                 android:gravity="start"
                 android:hint="Name"
                 android:padding="@dimen/_10sdp"
@@ -45,7 +45,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_5sdp"
-
+                android:drawableEnd="@drawable/ic_edit"
                 android:gravity="center"
                 android:hint="Last Name"
                 android:padding="@dimen/_10sdp"
@@ -60,7 +60,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-
+                android:drawableEnd="@drawable/ic_edit"
                 android:gravity="start"
                 android:hint="Description"
                 android:lines="3"
@@ -70,18 +70,32 @@
                 app:layout_constraintTop_toBottomOf="@+id/firstName" />
 
             <TextView
+                android:id="@+id/status"
+                style="@style/Small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableEnd="@drawable/ic_edit"
+                android:gravity="start"
+                android:hint="Status"
+                android:padding="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="@id/firstName"
+                app:layout_constraintStart_toStartOf="@id/firstName"
+                app:layout_constraintTop_toBottomOf="@+id/address1" />
+
+            <TextView
                 android:id="@+id/address2"
                 style="@style/Small"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-
+                android:drawableEnd="@drawable/ic_edit"
                 android:gravity="start"
                 android:hint="Short Description"
                 android:padding="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="@id/address1"
                 app:layout_constraintStart_toStartOf="@id/firstName"
-                app:layout_constraintTop_toBottomOf="@+id/address1" />
+                app:layout_constraintTop_toBottomOf="@+id/status" />
 
             <TextView
                 android:id="@+id/city"
@@ -90,12 +104,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
-
-                android:gravity="center"
+                android:drawableEnd="@drawable/ic_edit"
+                android:gravity="start"
                 android:hint="Regular Price"
                 android:inputType="numberDecimal"
                 android:padding="@dimen/_10sdp"
-                app:layout_constraintEnd_toStartOf="@id/taxSlab"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/firstName"
                 app:layout_constraintTop_toBottomOf="@+id/address2" />
 
@@ -105,13 +119,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
-
-                android:gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableEnd="@drawable/ic_edit"
+                android:gravity="start"
                 android:hint="Sale Price"
                 android:padding="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="@id/lastName"
-                app:layout_constraintStart_toEndOf="@id/city"
-                app:layout_constraintTop_toTopOf="@+id/city" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/city" />
 
             <TextView
                 android:id="@+id/taxSlab"
@@ -119,12 +134,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_5sdp"
-                android:gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawableEnd="@drawable/ic_edit"
+                android:gravity="start"
                 android:hint="Tax Slab"
                 android:padding="@dimen/_10sdp"
-                app:layout_constraintEnd_toEndOf="@id/lastName"
-                app:layout_constraintStart_toEndOf="@id/city"
-                app:layout_constraintTop_toTopOf="@+id/brandSpinner" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/salePrice" />
 
             <TextView
                 android:id="@+id/brandSpinner"
@@ -133,62 +150,63 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
-                android:gravity="center"
+                android:drawableEnd="@drawable/ic_edit"
+                android:gravity="start"
                 android:hint="Brand"
                 android:inputType="numberDecimal"
                 android:padding="@dimen/_10sdp"
-                app:layout_constraintEnd_toStartOf="@id/taxSlab"
-                app:layout_constraintStart_toStartOf="@id/firstName"
-                app:layout_constraintTop_toBottomOf="@+id/city" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/taxSlab" />
 
-        <!--    <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/addProduct"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/background8dp_round_dark"
-                android:padding="@dimen/_10sdp"
-                app:layout_constraintEnd_toEndOf="@id/address1"
-                app:layout_constraintStart_toStartOf="@id/firstName"
-                app:layout_constraintTop_toBottomOf="@id/brandSpinner">
-
-                <ImageView
-                    android:id="@+id/iv_add_item"
-                    android:layout_width="wrap_content"
+            <!--    <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/addProduct"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_add_icon_2023"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_add_item"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:background="@drawable/background8dp_round_dark"
+                    android:padding="@dimen/_10sdp"
+                    app:layout_constraintEnd_toEndOf="@id/address1"
+                    app:layout_constraintStart_toStartOf="@id/firstName"
+                    app:layout_constraintTop_toBottomOf="@id/brandSpinner">
 
-                <TextView
-                    android:id="@+id/tv_add_item"
-                    style="@style/Title6"
-                    android:layout_width="wrap_content"
+                    <ImageView
+                        android:id="@+id/iv_add_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_add_icon_2023"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_add_item"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_add_item"
+                        style="@style/Title6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:text="Add Category"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/iv_add_item"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/addProductRecycler"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    android:text="Add Category"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/iv_add_item"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/addProductRecycler"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/addProduct"
-                app:layout_constraintStart_toStartOf="@id/addProduct"
-                app:layout_constraintTop_toBottomOf="@id/addProduct"
-                tools:listitem="@layout/item_order_product" />
--->
+                    app:layout_constraintEnd_toEndOf="@id/addProduct"
+                    app:layout_constraintStart_toStartOf="@id/addProduct"
+                    app:layout_constraintTop_toBottomOf="@id/addProduct"
+                    tools:listitem="@layout/item_order_product" />
+    -->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

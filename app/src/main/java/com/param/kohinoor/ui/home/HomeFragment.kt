@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.param.exercise.utils.ResourceState
+import com.param.exercise.utils.delayOnLifecycle
 import com.param.exercise.utils.hide
 import com.param.exercise.utils.show
 import com.param.kohinoor.R
@@ -194,6 +195,9 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
+        }
+        binding.progressBar.delayOnLifecycle(1000){
+            imm?.hideSoftInputFromWindow(binding.toolbarSearch.windowToken, 0)
         }
     }
 

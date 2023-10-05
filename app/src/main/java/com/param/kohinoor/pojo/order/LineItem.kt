@@ -31,6 +31,8 @@ data class LineItem(
     val regularPrice: Double?,
     @Json(name = "sale_price")
     var salePrice: String?=null,
+    @Json(name = "status")
+    var status: String?=null,
     @Json(name = "product_id")
     val productId: Int?,
     @Json(name = "quantity")

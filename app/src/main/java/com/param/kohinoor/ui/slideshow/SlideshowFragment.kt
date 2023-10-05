@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.anilokcun.uwmediapicker.UwMediaPicker
 import com.anilokcun.uwmediapicker.model.UwMediaPickerMediaModel
 import com.param.exercise.utils.ResourceState
@@ -236,6 +237,27 @@ class SlideshowFragment : Fragment(), ProgressRequestBody.UploadCallbacks {
                     is ResourceState.Success -> {
                         binding.progressBar.hide()
                         viewModel.addBrand(RequestAddBrand(selectedBrand, it.item.id.toString()))
+                    }
+
+                    is ResourceState.Error -> {
+                        Toast.makeText(activity, "Something when wrong", Toast.LENGTH_LONG).show()
+                    }
+
+                    else -> {}
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.addBrand.collect {
+                when (it) {
+                    is ResourceState.Loading -> {
+                        binding.progressBar.show()
+                    }
+
+                    is ResourceState.Success -> {
+                        binding.progressBar.hide()
+                        Toast.makeText(activity, "Product Added", Toast.LENGTH_LONG).show()
+                        findNavController().popBackStack()
                     }
 
                     is ResourceState.Error -> {
