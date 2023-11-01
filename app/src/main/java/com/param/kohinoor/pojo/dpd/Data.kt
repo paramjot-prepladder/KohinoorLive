@@ -12,6 +12,8 @@ data class Data(
     val homeUrl: String?,
     @Json(name = "pdf_url")
     val pdfUrl: String?,
+    @Json(name = "view_dpd_pdf")
+    val viewDpdPdf: String?,
     @Json(name = "predict")
     val predict: String?,
     @Json(name = "tracking_url")

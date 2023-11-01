@@ -137,6 +137,16 @@
             </com.google.android.material.card.MaterialCardView>
 
             <Button
+                android:id="@+id/viewDpd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="View DPD"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/viewInvoice"
+                app:layout_constraintTop_toBottomOf="@id/downloadInvoice" />
+
+            <Button
                 android:id="@+id/downloadInvoice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -144,6 +154,15 @@
                 android:text="Download Invoice"
                 app:layout_constraintStart_toStartOf="@id/orderNo"
                 app:layout_constraintTop_toBottomOf="@id/mobile" />
+
+            <Button
+                android:id="@+id/viewInvoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:text="View Invoice"
+                app:layout_constraintStart_toStartOf="@id/downloadInvoice"
+                app:layout_constraintTop_toBottomOf="@id/downloadInvoice" />
 
             <TextView
                 android:id="@+id/detail"
@@ -153,7 +172,7 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:text="Order Details"
                 app:layout_constraintStart_toStartOf="@id/orderNo"
-                app:layout_constraintTop_toBottomOf="@id/downloadInvoice" />
+                app:layout_constraintTop_toBottomOf="@id/viewDpd" />
 
             <ImageView
                 android:id="@+id/addProduct"

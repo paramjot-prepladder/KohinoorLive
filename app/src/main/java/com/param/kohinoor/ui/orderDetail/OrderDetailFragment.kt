@@ -23,7 +23,6 @@ import com.param.exercise.utils.ResourceState
 import com.param.exercise.utils.gone
 import com.param.exercise.utils.setStatus
 import com.param.exercise.utils.show
-import com.param.kohinoor.MainActivity
 import com.param.kohinoor.R
 import com.param.kohinoor.databinding.DialogProductListingBinding
 import com.param.kohinoor.databinding.FragmentOrderDetailBinding
@@ -41,7 +40,6 @@ import com.param.kohinoor.utils.BottomSheetDialog
 import com.param.kohinoor.utils.RecyclerTouchListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.util.Locale
 
 
 private const val ARG_PARAM1 = "param1"
@@ -56,6 +54,7 @@ class OrderDetailFragment : Fragment() {
     private val productViewModel: ProductViewModel by viewModels()
     private val args: OrderDetailFragmentArgs by navArgs()
     private var downloadUrl: String? = ""
+    private var viewDpdPdf: String? = ""
     var adapterOrder: OrderDetailAdapter? = null
     var bottomSheet: BottomSheetDialog? = null
     var dataToReturn: LineItem? = null
@@ -234,6 +233,7 @@ class OrderDetailFragment : Fragment() {
                         binding?.trackingId?.show()
 
                         downloadUrl = it.item.data?.pdfUrl
+                        viewDpdPdf = it.item.data?.viewDpdPdf
                         binding?.trackingId?.text = it.item.data?.trackingUrl
                         Log.e("handdy", it.item.toString())
                     }
@@ -284,6 +284,11 @@ class OrderDetailFragment : Fragment() {
                 }.show(parentFragmentManager, "createDpd")
 
             }
+            viewDpd.setOnClickListener {
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(viewDpdPdf)
+                startActivity(i)
+            }
             trackingId.setOnClickListener {
                 if (shouldAskPermission()) {
                     requireActivity().requestPermissions(
@@ -298,6 +303,12 @@ class OrderDetailFragment : Fragment() {
 //                val fullPath = String.format(Locale.ENGLISH, format, downloadUrl)
 //                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(fullPath))
 //                startActivity(browserIntent)
+            }
+            viewInvoice.setOnClickListener {
+                val url = "https://kohinoormunich.de/view-pdf/?order-id-pdf=${args.data.id}"
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse(url)
+                startActivity(i)
             }
             downloadInvoice.setOnClickListener {
                 if (shouldAskPermission()) {
