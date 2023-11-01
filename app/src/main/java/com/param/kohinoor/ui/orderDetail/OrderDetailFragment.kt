@@ -1,8 +1,14 @@
 package com.param.kohinoor.ui.orderDetail
 
+import android.Manifest
+import android.app.DownloadManager
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +23,7 @@ import com.param.exercise.utils.ResourceState
 import com.param.exercise.utils.gone
 import com.param.exercise.utils.setStatus
 import com.param.exercise.utils.show
+import com.param.kohinoor.MainActivity
 import com.param.kohinoor.R
 import com.param.kohinoor.databinding.DialogProductListingBinding
 import com.param.kohinoor.databinding.FragmentOrderDetailBinding
@@ -53,6 +60,7 @@ class OrderDetailFragment : Fragment() {
     var bottomSheet: BottomSheetDialog? = null
     var dataToReturn: LineItem? = null
     val list: MutableList<LineItem> = arrayListOf()
+    private var STORAGE_PERMISSION_REQUEST = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -277,10 +285,33 @@ class OrderDetailFragment : Fragment() {
 
             }
             trackingId.setOnClickListener {
-                val format = "https://drive.google.com/viewerng/viewer?embedded=true&url=%s"
-                val fullPath = String.format(Locale.ENGLISH, format, downloadUrl)
-                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(fullPath))
-                startActivity(browserIntent)
+                if (shouldAskPermission()) {
+                    requireActivity().requestPermissions(
+                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        STORAGE_PERMISSION_REQUEST
+                    )
+                } else {
+                    downloadFile(downloadUrl, "Dpd")
+//            convertHtmlToPdf()
+                }
+//                val format = "https://drive.google.com/viewerng/viewer?embedded=true&url=%s"
+//                val fullPath = String.format(Locale.ENGLISH, format, downloadUrl)
+//                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(fullPath))
+//                startActivity(browserIntent)
+            }
+            downloadInvoice.setOnClickListener {
+                if (shouldAskPermission()) {
+                    requireActivity().requestPermissions(
+                        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                        STORAGE_PERMISSION_REQUEST
+                    )
+                } else {
+                    downloadFile(
+                        "https://kohinoormunich.de/koh-app/uploads/wpo_wcpdf_7062b86d6d011d8523305a4b258c488c/attachments/invoice-${args.data.id}.pdf",
+                        "Invoice"
+                    )
+                }
+
             }
             status.setOnClickListener {
                 UpdateStatusBottomSheet { ls ->
@@ -297,6 +328,66 @@ class OrderDetailFragment : Fragment() {
                     )
 
                 }.show(parentFragmentManager, "updateSheet")
+            }
+        }
+    }
+
+    private fun downloadFile(data: String?, type: String) {
+        if (data?.isNotEmpty() == true) {
+            val request = DownloadManager.Request(Uri.parse(data))
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            request.addRequestHeader("Accept", "application/pdf")
+            request.setTitle("Downloading $type for " + args.data.id)
+//            (requireActivity() as MainActivity).setSnackbar(
+//                binding?.root,
+//                "Downloading $subjectName" + "_" + "$name.pdf"
+//            )
+            /** request.setDestinationInExternalFilesDir(
+            context, Environment.DIRECTORY_DOWNLOADS, "$subjectName" + "_" + "$name.pdf"
+            )
+             **/
+
+            /** val downloadManager =
+            requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            downloadManager.enqueue(request)
+             **/
+            Toast.makeText(activity, "Download Started", Toast.LENGTH_LONG).show()
+
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            request.addRequestHeader("Accept", "application/pdf")
+            request.setTitle("$type" + "_" + "${args.data.id}.pdf")
+
+            request.setDestinationInExternalPublicDir(
+                Environment.DIRECTORY_DOWNLOADS, "$type" + "_" + "${args.data.id}.pdf"
+            )
+            val downloadManager =
+                activity?.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            downloadManager.enqueue(request)
+        }
+    }
+
+    private fun shouldAskPermission(): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.Q &&
+                requireActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray,
+    ) {
+        //changed requestCode value in below method so that it would not call parent class method as we are handling everything here
+        requireActivity().onRequestPermissionsResult(0, permissions, grantResults)
+        if (requestCode == STORAGE_PERMISSION_REQUEST) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                convertHtmlToPdf()
+                downloadFile(downloadUrl, "Kohinoor")
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Storage permission denied, enabled it from settings",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
