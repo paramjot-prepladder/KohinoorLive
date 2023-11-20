@@ -11,7 +11,11 @@ import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.param.kohinoor.R
 
-class UpdateProductDetailBottomSheet(val hint: String, val listener: (String) -> Unit) :
+class UpdateProductDetailBottomSheet(
+    val hint: String,
+    val price: String = "",
+    val listener: (String) -> Unit
+) :
     BottomSheetDialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,7 +28,7 @@ class UpdateProductDetailBottomSheet(val hint: String, val listener: (String) ->
         quantity.inputType = InputType.TYPE_CLASS_TEXT
         val addProduct = view.findViewById<TextView>(R.id.addProduct)
         quantity.hint = "Enter $hint"
-
+        quantity.setText(price)
         addProduct.setOnClickListener {
             if (quantity.text.isNotBlank()) {
                 listener(quantity.text.toString())

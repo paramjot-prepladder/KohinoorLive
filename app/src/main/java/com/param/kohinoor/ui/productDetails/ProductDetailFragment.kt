@@ -115,7 +115,7 @@ class ProductDetailFragment : Fragment() {
             }.show(parentFragmentManager, "updateSheet")
         }
         binding?.city?.setOnClickListener {
-            UpdateProductDetailBottomSheet("Regular Price") {
+            UpdateProductDetailBottomSheet("Regular Price", data?.regularPrice.toString()) {
                 viewModel.updateSingleProducts(
                     data?.id ?: 0,
                     RequestUpdateProduct(regularPrice = it)
