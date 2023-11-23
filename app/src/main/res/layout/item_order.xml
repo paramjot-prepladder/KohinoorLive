@@ -41,6 +41,7 @@
             <TextView
                 android:id="@+id/mobile"
                 style="@style/Micro10"
+                android:textColor="@color/text_color_blue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/name"

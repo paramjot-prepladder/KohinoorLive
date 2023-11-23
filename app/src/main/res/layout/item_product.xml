@@ -38,7 +38,21 @@
             android:background="@color/text_color_grey"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Stock"
+            android:text="In-Stock"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/outStock"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/outStock"
+            style="@style/Micro10"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="@color/text_color_orange"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Out Stock"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

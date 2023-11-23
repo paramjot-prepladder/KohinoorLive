@@ -1,17 +1,17 @@
 package com.param.kohinoor.ui.gallery
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.param.exercise.utils.setStatus
-import com.param.kohinoor.R
 import com.param.kohinoor.databinding.ItemOrderBinding
-import com.param.kohinoor.databinding.ItemProductBinding
 import com.param.kohinoor.pojo.order.ResponseOrderItem
-import com.param.kohinoor.pojo.product.ResponseProductListingItem
+
 
 class OrderListingAdapter(val listener: (ResponseOrderItem) -> Unit) :
     RecyclerView.Adapter<OrderListingAdapter.ViewHolder>() {
@@ -19,11 +19,16 @@ class OrderListingAdapter(val listener: (ResponseOrderItem) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ResponseOrderItem, listener: (ResponseOrderItem) -> Unit) {
             binding.apply {
+                mobile.setOnClickListener {
+                    val intent =
+                        Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", data.billing?.phone, null))
+                    mobile.context.startActivity(intent)
+                }
                 root.setOnClickListener {
                     listener(data)
                 }
                 statusText.setStatus(data.status, status)
-                price.text = "€" +data.total
+                price.text = "€" + data.total
                 mobile.text = data.billing?.phone
                 orderNo.text = "Order #" + data.id
                 name.text = "${data.billing?.firstName} ${data.billing?.lastName}"

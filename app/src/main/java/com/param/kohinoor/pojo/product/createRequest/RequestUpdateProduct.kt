@@ -29,6 +29,8 @@ data class RequestUpdateProduct(
     var taxClass: String? = null,
     @Json(name = "sku")
     var sku: String? = null,
+    @Json(name = "stock_status")
+    var stockStatus: String? = null,
     @Json(name = "type")
     val type: String? = "simple"
 )

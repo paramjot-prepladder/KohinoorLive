@@ -20,7 +20,7 @@ class OrderRepository @Inject constructor(
     suspend fun getOrders(): ResourceState<List<ResponseOrderItem>> {
         return try {
 
-            val response = apiInterface.getOrders(100)
+            val response = apiInterface.getOrders(15)
 
             val result = response.body()
             if (response.isSuccessful && result != null) {

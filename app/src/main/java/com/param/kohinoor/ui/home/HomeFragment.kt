@@ -91,7 +91,7 @@ class HomeFragment : Fragment() {
 
             override fun onIndependentViewClicked(independentViewID: Int, position: Int) {}
         })
-            .setSwipeOptionViews(R.id.hide, R.id.prices)
+            .setSwipeOptionViews(R.id.hide,R.id.outStock, R.id.prices)
             .setSwipeable(
                 R.id.rowFG, R.id.rowBG
             ) { viewID, position ->
@@ -104,9 +104,15 @@ class HomeFragment : Fragment() {
                     }
 
                     R.id.hide -> {
-                        showUpdateBottomSheet(
-                            false,
-                            adapterProductListing?.differ?.currentList?.get(position)
+                        viewModel.updateSingleProducts(
+                            adapterProductListing?.differ?.currentList?.get(position)?.id ?: 0,
+                            RequestUpdateProduct(stockStatus = "instock")
+                        )
+                    }
+                    R.id.outStock -> {
+                        viewModel.updateSingleProducts(
+                            adapterProductListing?.differ?.currentList?.get(position)?.id ?: 0,
+                            RequestUpdateProduct(stockStatus = "outofstock")
                         )
                     }
                 }

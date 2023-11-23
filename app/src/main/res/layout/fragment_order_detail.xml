@@ -141,7 +141,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:text="View DPD"
+                android:text="Print DPD"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/viewInvoice"
                 app:layout_constraintTop_toBottomOf="@id/downloadInvoice" />
