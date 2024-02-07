@@ -47,6 +47,7 @@ class ProductDetailFragment : Fragment() {
     private val args: ProductDetailFragmentArgs by navArgs()
     private val viewModel: ProductViewModel by viewModels()
     var binding: FragmentProductDetailBinding? = null
+    var data: LineItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,12 +76,14 @@ class ProductDetailFragment : Fragment() {
         binding?.brandSpinner?.setValue("Brand", "Brand " + data?.salePrice.toString())
         binding?.taxSlab?.setValue("Tax", "Tax " + data?.taxClass.toString())
         binding?.address2?.setValue("Short Desc", "Short Desc " + data?.shortDescription ?: "")
-        binding?.productImage?.loadImg(data?.images?.get(0)?.src)
+        if (data?.images?.isNotEmpty() == true)
+            binding?.productImage?.loadImg(data.images[0]?.src)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val data = args.productDetail
+
+        data = args.productDetail
         viewModel.updateSingleProducts(data?.id ?: 0, RequestUpdateProduct(status = data?.status))
         binding?.taxSlab?.gone()
         binding?.brandSpinner?.gone()
@@ -142,6 +145,7 @@ class ProductDetailFragment : Fragment() {
 
                     is ResourceState.Success -> {
                         binding?.progressBar?.hide()
+                        data = it.item
                         updateProductData(it.item)
                         Log.e("handdy", it.item.toString())
                     }

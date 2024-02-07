@@ -26,13 +26,13 @@ data class LineItem(
 //    @Json(name = "parent_name")
 //    val parentName: Any?,
     @Json(name = "price")
-    val price: Double?,
+    val price: String?,
     @Json(name = "regular_price")
-    val regularPrice: Double?,
+    val regularPrice: String?,
     @Json(name = "sale_price")
-    var salePrice: String?=null,
+    var salePrice: String? = null,
     @Json(name = "status")
-    var status: String?=null,
+    var status: String? = null,
     @Json(name = "product_id")
     val productId: Int?,
     @Json(name = "quantity")
@@ -54,4 +54,4 @@ data class LineItem(
     @Json(name = "variation_id")
     val variationId: Int?,
     var isSelected: Boolean = false
-): Parcelable
+) : Parcelable

@@ -215,6 +215,7 @@
         android:id="@+id/addOrder"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginTop="@dimen/_10sdp"
         android:padding="@dimen/_10sdp"
         android:text="Create new Product"

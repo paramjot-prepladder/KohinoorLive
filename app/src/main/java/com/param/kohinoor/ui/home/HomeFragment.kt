@@ -3,6 +3,7 @@ package com.param.kohinoor.ui.home
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -42,6 +43,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: ProductViewModel by viewModels()
     private var imm: InputMethodManager? = null
+    private var recyclerViewState: Parcelable? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,7 +93,7 @@ class HomeFragment : Fragment() {
 
             override fun onIndependentViewClicked(independentViewID: Int, position: Int) {}
         })
-            .setSwipeOptionViews(R.id.hide,R.id.outStock, R.id.prices)
+            .setSwipeOptionViews(R.id.hide, R.id.outStock, R.id.prices)
             .setSwipeable(
                 R.id.rowFG, R.id.rowBG
             ) { viewID, position ->
@@ -109,6 +111,7 @@ class HomeFragment : Fragment() {
                             RequestUpdateProduct(stockStatus = "instock")
                         )
                     }
+
                     R.id.outStock -> {
                         viewModel.updateSingleProducts(
                             adapterProductListing?.differ?.currentList?.get(position)?.id ?: 0,
@@ -184,6 +187,11 @@ class HomeFragment : Fragment() {
 
                         is ResourceState.Success -> {
                             adapterProductListing?.submitList(it.item)
+                            if (recyclerViewState != null) {
+                                binding.recyclerView.layoutManager?.onRestoreInstanceState(
+                                    recyclerViewState
+                                );
+                            }
                             binding.progressBar.hide()
 //                        binding.progressBar.hide()
 //                        adapterProductListing?.submitList(it.item)
@@ -202,7 +210,7 @@ class HomeFragment : Fragment() {
                 }
             }
         }
-        binding.progressBar.delayOnLifecycle(1000){
+        binding.progressBar.delayOnLifecycle(1000) {
             imm?.hideSoftInputFromWindow(binding.toolbarSearch.windowToken, 0)
         }
     }
@@ -224,5 +232,15 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        recyclerViewState = binding.recyclerView.layoutManager?.onSaveInstanceState();
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        binding.recyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState);
     }
 }
